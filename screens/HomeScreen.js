@@ -80,7 +80,7 @@ export default function HomeScreen({ navigation }) {
                 style={styles.menuItem}
                 onPress={() => {
                   setMenuOpen(false);
-                  navigation.navigate("CarDetailr");
+                  navigation.navigate("Inspections");
                 }}
               >
                 <Text style={styles.menuText}>Inspección</Text>
@@ -89,7 +89,7 @@ export default function HomeScreen({ navigation }) {
                 style={styles.menuItem}
                 onPress={() => {
                   setMenuOpen(false);
-                  navigation.navigate("CarDetailr");
+                  navigation.navigate("Documents");
                 }}
               >
                 <Text style={styles.menuText}>Documentos</Text>
@@ -98,7 +98,7 @@ export default function HomeScreen({ navigation }) {
                 style={styles.menuItem}
                 onPress={() => {
                   setMenuOpen(false);
-                  navigation.navigate("CarDetailr");
+                  navigation.navigate("Images");
                 }}
               >
                 <Text style={styles.menuText}>Imágenes</Text>
