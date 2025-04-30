@@ -1,194 +1,131 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useState } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons"; // Necesitas instalar `expo/vector-icons` si no lo tienes
-import { ScrollView } from "react-native-gesture-handler";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { FlatList } from "react-native";
+import {
+  GestureHandlerRootView,
+  ScrollView,
+} from "react-native-gesture-handler";
+import CarCard from "../components/CarCard";
+import FabMenu from "../components/FabMenu";
+
+const { width } = Dimensions.get("window");
+
+const cars = [
+  {
+    id: 1,
+    title: "BMW - E46 Sedan",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/6/69/BMW320i_E46_Lim.jpg",
+    info: [
+      ["Año: 2001", "Modelo: E46 Sedan"],
+      ["Marca: BMW", "Kilometraje: 264,456 km"],
+      ["Placa: ABC-1234", "Dekra: 20/03/2025"],
+      ["Puertas: 4", "Transmisión: Automática"],
+      ["Color: Gris Titanio", "Tipo de Motor: 3.0L I6"],
+      ["VIN: WBAEV53411KM12345"],
+    ],
+  },
+  {
+    id: 2,
+    title: "Audi A4 B7",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Audi_A4_B9_Limousine_3.0_TDI_quattro.JPG/330px-Audi_A4_B9_Limousine_3.0_TDI_quattro.JPG",
+    info: [
+      ["Año: 2006", "Modelo: A4 B7"],
+      ["Marca: Audi", "Kilometraje: 178,000 km"],
+      ["Placa: XYZ-5678", "Dekra: 15/08/2024"],
+      ["Puertas: 4", "Transmisión: Manual"],
+      ["Color: Negro", "Tipo de Motor: 2.0 TFSI"],
+      ["VIN: WAUZZZ8E86A123456"],
+    ],
+  },
+  {
+    id: 3,
+    title: "Mercedes-Benz C200",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Mercedes-Benz_C-Class_timeline.jpg/800px-Mercedes-Benz_C-Class_timeline.jpg",
+    info: [
+      ["Año: 2004", "Modelo: C200 W203"],
+      ["Marca: Mercedes-Benz", "Kilometraje: 210,000 km"],
+      ["Placa: LMN-9012", "Dekra: 10/12/2025"],
+      ["Puertas: 4", "Transmisión: Automática"],
+      ["Color: Plata", "Tipo de Motor: 1.8L Kompressor"],
+      ["VIN: WDBRF40J14A123456"],
+    ],
+  },
+];
 
 export default function HomeScreen({ navigation }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={styles.container}>
-          <Text style={styles.title}></Text>
-
-          <View style={styles.card}>
-            <Image
-              source={{
-                uri: "https://upload.wikimedia.org/wikipedia/commons/6/69/BMW320i_E46_Lim.jpg",
-              }}
-              style={styles.carImage}
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={styles.container}>
+            <Text style={styles.title}>Mis Autos</Text>
+            <FlatList
+              data={cars}
+              keyExtractor={(item) => item.id.toString()}
+              horizontal
+              pagingEnabled
+              snapToAlignment="center"
+              decelerationRate="fast"
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <View style={{ width }}>
+                  <CarCard
+                    car={item}
+                    onPress={() =>
+                      navigation.navigate("CarDetail", { car: item })
+                    }
+                  />
+                </View>
+              )}
             />
-
-            <Text style={styles.carTitle}>BMW - E46 Sedan</Text>
-
-            <View style={styles.infoContainer}>
-              {/* Primera fila */}
-              <View style={styles.row}>
-                <Text style={styles.rowItem}>Año: 2001</Text>
-                <Text style={styles.rowItem}>Modelo: E46 Sedan</Text>
-              </View>
-
-              {/* Segunda fila */}
-              <View style={styles.row}>
-                <Text style={styles.rowItem}>Marca: BMW</Text>
-                <Text style={styles.rowItem}>Kilometraje: 264,456 km</Text>
-              </View>
-
-              {/* Tercera fila */}
-              <View style={styles.row}>
-                <Text style={styles.rowItem}>Placa: ABC-1234</Text>
-                <Text style={styles.rowItem}>Dekra: 20/03/2025</Text>
-              </View>
-
-              {/* Cuarta fila */}
-              <View style={styles.row}>
-                <Text style={styles.rowItem}>Puertas: 4</Text>
-                <Text style={styles.rowItem}>Transmisión: Automática</Text>
-              </View>
-
-              {/* Quinta fila */}
-              <View style={styles.row}>
-                <Text style={styles.rowItem}>Color: Gris Titanio</Text>
-                <Text style={styles.rowItem}>Tipo de Motor: 3.0L I6</Text>
-              </View>
-
-              {/* Sexta fila */}
-              <View style={styles.row}>
-                <Text style={styles.rowItem}>VIN: WBAEV53411KM12345</Text>
-              </View>
-            </View>
           </View>
+        </ScrollView>
 
-          {/* Botón flotante */}
-          <TouchableOpacity
-            style={styles.fab}
-            onPress={() => setMenuOpen(!menuOpen)}
-          >
-            <Ionicons
-              name={menuOpen ? "close" : "menu"}
-              size={30}
-              color="#fff"
-            />
-          </TouchableOpacity>
-
-          {/* Menú desplegable */}
-          {menuOpen && (
-            <View style={styles.menu}>
-  
-              <TouchableOpacity
-                style={styles.menuItem}
-                onPress={() => {
-                  setMenuOpen(false);
-                  navigation.navigate("AddCar");
-                }}
-              >
-                <Text style={styles.menuText}>Agregar Auto</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      </ScrollView>
+        {/* FabMenu fuera del ScrollView y con posición absoluta */}
+        <FabMenu
+          menuOpen={menuOpen}
+          toggleMenu={() => setMenuOpen(!menuOpen)}
+          onAddCar={() => {
+            setMenuOpen(false);
+            navigation.navigate("AddCar");
+          }}
+          style={styles.fab}
+        />
+      </View>
     </GestureHandlerRootView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e8ecf4", // Fondo más claro y moderno
-    width: "95%",
+    backgroundColor: "#e8ecf4",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e8ecf4",
     alignSelf: "center",
-    height: "100",
   },
   title: {
     fontSize: 32,
     fontWeight: "800",
     textAlign: "center",
-   
+    marginVertical: 20,
     color: "#333",
   },
   card: {
-    backgroundColor: "#ffffff",
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 6,
-    
-    overflow: "hidden",
-    width: "100%",
-    alignSelf: "center",
-  },
-  carImage: {
-    width: "100%",
-    height: 220,
-    resizeMode: "cover", // Se adapta mejor al espacio
-  },
-  carTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 15,
-    marginBottom: 10,
-    color: "#444",
-  },
-  infoContainer: {
+    width: "80%",
+    backgroundColor: "#3f51b5",
+    marginHorizontal: 10,
     paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
-  },
-  rowItem: {
-    flex: 1,
-    fontSize: 16,
-    color: "#555",
-    textAlign: "center",
-  },
-  fab: {
-    position: "absolute",
-    right: 20,
-    bottom: 30,
-    backgroundColor: "#007bff",
-    width: 65,
-    height: 65,
-    borderRadius: 32.5,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.25,
-    shadowRadius: 5,
-    elevation: 6,
-  },
-  menu: {
-    position: "absolute",
-    right: 20,
-    bottom: 110,
-    backgroundColor: "#ffffff",
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 18,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-  },
-  menuItem: {
-    paddingVertical: 12,
-  },
-  menuText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    textAlign: "center",
+    borderRadius: 10,
+    overflow: "hidden",
+    // otros estilos
   },
 });
