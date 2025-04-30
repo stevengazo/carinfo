@@ -4,6 +4,7 @@ import CarDetailScreen from '../screens/CarDetailScreen';
 import InspectionsScreen from '../screens/InspectionsScreen';
 import DocumentsScreen from '../screens/DocumentsScreen';
 import ImagesScreen from '../screens/ImagesScreen';
+import AddCarScreen from '../screens/AddCarScreen';
 const Stack = createNativeStackNavigator();
 
 export default function StackNavigator() {
@@ -14,6 +15,7 @@ export default function StackNavigator() {
       <Stack.Screen name="Inspections" component={InspectionsScreen} />
       <Stack.Screen name="Documents" component={DocumentsScreen} />
       <Stack.Screen name="Images" component={ImagesScreen} />
+      <Stack.Screen name="AddCar" component={AddCarScreen} /> 
     </Stack.Navigator>
   );
 }

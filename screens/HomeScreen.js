@@ -76,41 +76,15 @@ export default function HomeScreen({ navigation }) {
           {/* Menú desplegable */}
           {menuOpen && (
             <View style={styles.menu}>
+  
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => {
                   setMenuOpen(false);
-                  navigation.navigate("Inspections");
+                  navigation.navigate("AddCar");
                 }}
               >
-                <Text style={styles.menuText}>Inspección</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuItem}
-                onPress={() => {
-                  setMenuOpen(false);
-                  navigation.navigate("Documents");
-                }}
-              >
-                <Text style={styles.menuText}>Documentos</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuItem}
-                onPress={() => {
-                  setMenuOpen(false);
-                  navigation.navigate("Images");
-                }}
-              >
-                <Text style={styles.menuText}>Imágenes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuItem}
-                onPress={() => {
-                  setMenuOpen(false);
-                  navigation.navigate("CarDetailr");
-                }}
-              >
-                <Text style={styles.menuText}>Salidas</Text>
+                <Text style={styles.menuText}>Agregar Auto</Text>
               </TouchableOpacity>
             </View>
           )}
